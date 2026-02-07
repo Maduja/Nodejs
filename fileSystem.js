@@ -17,3 +17,11 @@ file.writeFile('./docs/file.txt','hi hi hi',(err)=>{
         console.log("file written")
     }
 })
+
+file.readFile('./docs/file.txt',(err,data)=>{
+    if(err){
+        console.log(err.message)
+    }else{
+        console.log(data.toString())
+    }
+})
