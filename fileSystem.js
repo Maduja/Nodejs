@@ -1,6 +1,6 @@
-const fs = require('fs')
+const file = require('fs')
 
-fs.mkdir('./docs',(err)=>{
+file.mkdir('./docs',(err)=>{
     if(err){
         console.log(err.message)
     }
