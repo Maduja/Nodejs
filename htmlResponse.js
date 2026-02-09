@@ -4,6 +4,18 @@ const fs = require('fs')
 const server = http.createServer((req,res)=>{
 
     res.setHeader('content-Type','text/html')
+
+    let path = './docs/'
+
+    if(req.url=='/home'||req.url=='/'){
+        path += 'index.html'
+    }else if(req.url == '/join'){
+        path += "join.html"
+    }else if(req.url=='/about'){
+        path+= 'about.html'
+    }
+
+    
     fs.readFile('./docs/index.html',(err,data)=>{
         if(err){
             console.log(err.message)
