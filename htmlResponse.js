@@ -6,8 +6,12 @@ const server = http.createServer((req, res) => {
 
   let path = "./docs/";
 
-  if (req.url == "/home" || req.url == "/") {
+  if (req.url == "/") {
     path += "index.html";
+  }else if(req.url == '/home'){
+    res.statusCode=302
+    res.setHeader('Location','/')
+    res.end()
   } else if (req.url == "/join") {
     path += "join.html";
   } else if (req.url == "/about") {
