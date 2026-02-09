@@ -1,32 +1,33 @@
-const http = require('http')
-const fs = require('fs')
+const http = require("http");
+const fs = require("fs");
 
-const server = http.createServer((req,res)=>{
+const server = http.createServer((req, res) => {
+  res.setHeader("content-Type", "text/html");
 
-    res.setHeader('content-Type','text/html')
+  let path = "./docs/";
 
-    let path = './docs/'
+  if (req.url == "/home" || req.url == "/") {
+    path += "index.html";
+  } else if (req.url == "/join") {
+    path += "join.html";
+  } else if (req.url == "/about") {
+    path += "about.html";
+  }else{
+    path += "notFound.html"
+    res.statusCode=404
+  }
 
-    if(req.url=='/home'||req.url=='/'){
-        path += 'index.html'
-    }else if(req.url == '/join'){
-        path += "join.html"
-    }else if(req.url=='/about'){
-        path+= 'about.html'
+  fs.readFile(path, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      res.end();
+    } else {
+      res.write(data);
+      res.end();
+      //res.end(data)
     }
-
-    
-    fs.readFile('./docs/index.html',(err,data)=>{
-        if(err){
-            console.log(err.message)
-            res.end()
-        }else{
-            res.write(data)
-            res.end()
-            //res.end(data)
-        }
-    })
-})
-server.listen(3000, 'localhost', ()=>{
-    console.log("Server is listening")
-})
+  });
+});
+server.listen(3000, "localhost", () => {
+  console.log("Server is listening");
+});
