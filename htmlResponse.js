@@ -12,7 +12,7 @@ const server = http.createServer((req, res) => {
     res.statusCode=302
     res.setHeader('Location','/')
     res.end()
-  } else if (req.url == "/join") {
+  } else if (req.url == "/joinus") {
     path += "join.html";
   } else if (req.url == "/about") {
     path += "about.html";
