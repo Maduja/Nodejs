@@ -49,6 +49,21 @@ app.post("/api/users",(req,res)=>{
     return res.status(201).send(newUser)
 })
 
+app.put("/api/users/:id",(req,res)=>{
+    const id = parseInt(req.params.id)
+    if(isNaN(id)){
+        res.status(404).send({msg:"invalid"})
+    }
+    const userIndex = users.findIndex((user)=>user.id === id)
+    if(userIndex === -1){
+        return res.status(404).send({msg:"user not found"})
+    }
+    const {body} = req
+    users[userIndex] = {id: id, ...body}
+    return res.status(200).send({msg: "user updated"})
+    
+})
+
 app.listen(PORT,()=>{
     console.log(`App is running on port ${PORT}`)
 })
