@@ -78,6 +78,19 @@ app.patch("/api/users/:id",(req,res)=>{
     return res.sendStatus(200)
 })
 
+app.delete("/api/users/:id",(req,res)=>{
+    const id = parseInt(req.params.id)
+    if(isNaN(id)){
+        res.status(404).send({msg:"invalid"})
+    }
+    const userIndex = users.findIndex((user)=>user.id === id)
+    if(userIndex === -1){
+        return res.status(404).send({msg:"user not found"})
+    }
+    users.splice(userIndex, 1)
+    res.sendStatus(200)
+})
+
 app.listen(PORT,()=>{
     console.log(`App is running on port ${PORT}`)
 })
