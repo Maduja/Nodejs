@@ -17,6 +17,12 @@ app.get('/',(req,res)=>{
 })
 
 app.get('/api/users',(req,res)=>{
+
+    const {query:{filter,value}}=req
+    console.log(filter,value)
+    if(filter&&value){
+        return res.send(users.filter(((user)=>user[filter].toLowerCase().includes(value))))
+    }
     res.send(users)
 })
 
@@ -36,3 +42,6 @@ app.get("/api/users/:id",(req,res)=>{
 app.listen(PORT,()=>{
     console.log(`App is running on port ${PORT}`)
 })
+
+
+//localhost:3000/users?filter=user_name&value=go
