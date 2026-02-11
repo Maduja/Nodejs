@@ -12,6 +12,19 @@ const users =[
     {id:5, user_name:"hasini"},
 ]
 
+const getUserIndexById = (req,res,next)=>{
+    const id = parseInt(req.params.id)
+    if(isNaN(id)){
+        res.status(404).send({msg:"invalid"})
+    }
+    const userIndex = users.findIndex((user)=>user.id === id)
+    if(userIndex === -1){
+        return res.status(404).send({msg:"user not found"})
+    }
+    req.userIndex = userIndex
+    next()
+}
+
 app.get('/',(req,res)=>{
     res.send({msg:"Root"})
 })
@@ -64,29 +77,32 @@ app.put("/api/users/:id",(req,res)=>{
     
 })
 
-app.patch("/api/users/:id",(req,res)=>{
-    const id = parseInt(req.params.id)
-    if(isNaN(id)){
-        res.status(404).send({msg:"invalid"})
-    }
-    const userIndex = users.findIndex((user)=>user.id === id)
-    if(userIndex === -1){
-        return res.status(404).send({msg:"user not found"})
-    }
+app.patch("/api/users/:id", getUserIndexById,(req,res)=>{
+    // const id = parseInt(req.params.id)
+    // if(isNaN(id)){
+    //     res.status(404).send({msg:"invalid"})
+    // }
+    // const userIndex = users.findIndex((user)=>user.id === id)
+    // if(userIndex === -1){
+    //     return res.status(404).send({msg:"user not found"})
+    // }
+    const userIndex = req.userIndex
     const {body} = req
     users[userIndex] = {...users[userIndex], ...body}
     return res.sendStatus(200)
 })
 
-app.delete("/api/users/:id",(req,res)=>{
-    const id = parseInt(req.params.id)
-    if(isNaN(id)){
-        res.status(404).send({msg:"invalid"})
-    }
-    const userIndex = users.findIndex((user)=>user.id === id)
-    if(userIndex === -1){
-        return res.status(404).send({msg:"user not found"})
-    }
+app.delete("/api/users/:id", getUserIndexById, (req,res)=>{
+    // const id = parseInt(req.params.id)
+    // if(isNaN(id)){
+    //     res.status(404).send({msg:"invalid"})
+    // }
+    // const userIndex = users.findIndex((user)=>user.id === id)
+    // if(userIndex === -1){
+    //     return res.status(404).send({msg:"user not found"})
+    // }
+    const userIndex = req.userIndex
+    console.log(userIndex)
     users.splice(userIndex, 1)
     res.sendStatus(200)
 })
